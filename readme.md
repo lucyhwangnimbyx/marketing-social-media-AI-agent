@@ -113,7 +113,7 @@ Response example:
 | Convert agent flow into LangGraph-compatible Python modules | Lucy | Week 1 |
 | Expose endpoints + connect to Agent Inbox (dev.agentinbox.ai) | Lucy + Des | Week 2 |
 | Prototype Hive dropdown input → agent trigger → preview result | Lucy + Hive UI team | Week 2 |
-| Final demo + feedback loop | Lucy | Week 3 |
+| Final demo + feedback loop | Lucy + Marketing Team | Week 3 |
 
 ---
 
