@@ -2,7 +2,7 @@
 
 This repository contains a FastAPI-based AI agent designed to assist with social media content generation and automation for marketing purposes. The system is modular and ready to integrate into a larger LangGraph and Agent Inbox-based Modular Control Platform (MCP).
 
-![Architecture](figs/architecture.png)
+<img src="figs/architecture.png" alt="Architecture" width="600"/>
 
 ---
 
