@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Media Upload Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      padding: 60px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: #4f46e5;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      padding: 12px;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #4338ca;
+    }
+
+    #results {
+      margin-top: 25px;
+      white-space: pre-wrap;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .preview {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .preview img, .preview video {
+      max-width: 120px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Upload Media & Text for AI Captioning</h2>
+    <form id="uploadForm">
+      <label>Select Images or Videos (max 10):</label>
+      <input type="file" id="mediaFiles" name="files" multiple accept="image/*,video/*">
+
+      <label>Select One Text File (.pdf or .docx):</label>
+      <input type="file" id="textFile" name="file" accept=".pdf,.docx">
+
+      <textarea id="textPrompt" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;" placeholder="Enter post context for caption, title, hashtags..."></textarea>
+
+      <button type="submit">Upload & Generate Captions</button>
+    </form>
+
+    <div class="preview" id="preview"></div>
+    <div id="results"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const resultsDiv = document.getElementById('results');
+    const previewDiv = document.getElementById('preview');
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+
+      const mediaFiles = document.getElementById('mediaFiles').files;
+      if (mediaFiles.length > 10) {
+        alert("Please select up to 10 media files.");
+        return;
+      }
+
+      // Show previews
+      previewDiv.innerHTML = '';
+      for (let file of mediaFiles) {
+        const url = URL.createObjectURL(file);
+        if (file.type.startsWith('image/')) {
+          previewDiv.innerHTML += `<img src="${url}" alt="preview" />`;
+        } else if (file.type.startsWith('video/')) {
+          previewDiv.innerHTML += `<video src="${url}" controls muted></video>`;
+        }
+      }
+
+      const mediaFormData = new FormData();
+      for (let file of mediaFiles) {
+        mediaFormData.append("files", file);
+      }
+
+      const textFile = document.getElementById('textFile').files[0];
+      const textFormData = new FormData();
+      if (textFile) {
+        textFormData.append("file", textFile);
+      }
+
+      /*const prompt = document.getElementById('textPrompt').value;*/
+
+      resultsDiv.innerHTML = "<p>Uploading and generating captions...</p>";
+
+      try {
+        const mediaResponse = await fetch("http://localhost:10209/upload-media", {
+          method: "POST",
+          body: mediaFormData,
+        });
+        const mediaData = await mediaResponse.json();
+
+        let textData = {};
+        if (textFile) {
+          const textResponse = await fetch("http://localhost:10209/upload-text", {
+            method: "POST",
+            body: textFormData,
+          });
+          textData = await textResponse.json();
+        }
+
+        const captionResponse = await fetch("http://localhost:10209/generate-captions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: "Our new smart dental scanner is now live!" })
+        });
+        const captionData = await captionResponse.json();
+
+        resultsDiv.innerHTML = `
+          <h3>📷 Media Upload Result:</h3>
+          ${JSON.stringify(mediaData, null, 2)}
+          <h3>📄 Text Upload Result:</h3>
+          ${JSON.stringify(textData, null, 2)}
+          <h3>✍️ AI Captions:</h3>
+          ${JSON.stringify(captionData, null, 2)}
+        `;
+      } catch (error) {
+        resultsDiv.innerHTML = "<p style='color:red;'>Upload failed. Check console for details.</p>";
+        console.error(error);
+      }
+    };
+  </script>
+</body>
+</html>

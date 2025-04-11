@@ -1,0 +1,15 @@
+fastapi~=0.115.12
+uvicorn
+langchain~=0.3.22
+openai
+faiss-cpu
+pymupdf
+docx2txt
+pillow~=11.1.0
+transformers~=4.50.3
+accelerate
+torch
+pillow
+
+pydantic~=2.11.1
+python-dotenv~=1.1.0
