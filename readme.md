@@ -110,10 +110,10 @@ Response example:
 
 | Task | Owner | Timeline |
 |------|-------|----------|
-| Convert agent flow into LangGraph-compatible Python modules | You | Week 1 |
-| Expose endpoints + connect to Agent Inbox (dev.agentinbox.ai) | You + Des | Week 2 |
-| Prototype Hive dropdown input → agent trigger → preview result | You + Hive UI team | Week 2 |
-| Final demo + feedback loop | PK + Paolo | Week 3 |
+| Convert agent flow into LangGraph-compatible Python modules | Lucy | Week 1 |
+| Expose endpoints + connect to Agent Inbox (dev.agentinbox.ai) | Lucy + Des | Week 2 |
+| Prototype Hive dropdown input → agent trigger → preview result | Lucy + Hive UI team | Week 2 |
+| Final demo + feedback loop | Lucy | Week 3 |
 
 ---
 
