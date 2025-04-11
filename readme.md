@@ -106,6 +106,17 @@ Response example:
 
 ---
 
+## 📌 Next Steps
+
+| Task | Owner | Timeline |
+|------|-------|----------|
+| Convert agent flow into LangGraph-compatible Python modules | You | Week 1 |
+| Expose endpoints + connect to Agent Inbox (dev.agentinbox.ai) | You + Des | Week 2 |
+| Prototype Hive dropdown input → agent trigger → preview result | You + Hive UI team | Week 2 |
+| Final demo + feedback loop | PK + Paolo | Week 3 |
+
+---
+
 ## 📄 License
 
 This project is open for internal use and collaboration. Please contact the repository owner for more details.
